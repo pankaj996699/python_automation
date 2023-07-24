@@ -1,0 +1,50 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from time import sleep
+import getpass
+
+un=input("Enter the facebook Username (or) Email ID: ")
+pw=getpass.getpass("Enter the Password : ")
+sendusr=input("Enter the Username of the user to Whom to want to send message : ")
+msg=input("Enter the message to send : ")
+
+
+
+driver=webdriver.Firefox()
+driver.get('https://www.facebook.com/messages/t/')
+driver.maximize_window()
+
+username=driver.find_element("xpath",'//*[@id="email"]')
+username.send_keys(un)
+sleep(2)
+password=driver.find_element("xpath",' //*[@id="pass"]')
+password.send_keys(pw)
+sleep(2)
+clickable = driver.find_element(By.CLASS_NAME,'_xkt')
+clickable.click()
+sleep(3)
+#driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+
+
+search=driver.find_element("xpath",'/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[1]/div/div/div/div/div[2]/div[1]/div/div/div/div/label/input')
+search.send_keys(sendusr)
+sleep(5)
+findfirst=driver.find_element("xpath",'/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[2]/div/div/div[1]/div[1]/div/div[1]/ul/li[1]/ul/li[2]/div/a/div')
+findfirst.click()
+sleep(5)
+
+
+for j in msg:
+    msg=driver.find_element(By.CSS_SELECTOR,'.x14wi4xw')
+    msg.send_keys(j)
+    sleep(0.3)
+sleep(3)
+
+
+send=driver.find_element('xpath','/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div/div/div/div[1]/div[2]/div/div/div[2]/div/span[2]/div')
+send.click()
+sleep(3)
+
+driver.quit()
